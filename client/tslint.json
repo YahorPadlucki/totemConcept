@@ -1,0 +1,36 @@
+{
+  "rules": {
+    "curly": true,
+    "one-line": [true,
+      "check-open-brace",
+      "check-catch",
+      "check-else",
+      "check-finally",
+      "check-whitespace"
+    ],
+    "whitespace": [true,
+      "check-branch",
+      "check-decl",
+      "check-operator",
+      "check-separator"
+    ],
+    "indent": [
+      true,
+      "spaces"
+    ],
+    "triple-equals": [true,
+      "allow-null-check",
+      "allow-undefined-check"
+    ],
+    "radix": true,
+    "forin": true,
+    "no-eval": true,
+    "no-conditional-assignment": true,
+    "no-construct": true,
+    "no-debugger": true,
+    "no-invalid-this": true,
+    "no-duplicate-variable": true,
+    "no-consecutive-blank-lines": true,
+    "semicolon": [true, "always", "ignore-interfaces"]
+  }
+}
