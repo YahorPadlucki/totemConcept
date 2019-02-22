@@ -1,11 +1,10 @@
 import {ReelsController} from "../reels/ReelsController";
 import {UiPanel} from "../ui/UiPannel";
 import {BaseScene} from "./BaseScene";
-import TextureCache = PIXI.utils.TextureCache;
-import Sprite = PIXI.Sprite;
-import Point = PIXI.Point;
 import {LoaderCache} from "../loader/cache/LoaderCache";
 import {get} from "../utils/locator/locator";
+import {TotemLineController} from "../totemFeature/TotemLineController";
+import {TotemLineView} from "../totemFeature/TotemLineView";
 
 export class ReelsScene extends BaseScene {
 
@@ -15,6 +14,8 @@ export class ReelsScene extends BaseScene {
     private uiPannel: UiPanel;
 
     private loaderCache: LoaderCache = get(LoaderCache);
+
+    private totemLineController: TotemLineController;
 
     constructor(minWidth, minHeight) {
         super(minWidth, minHeight);
@@ -31,6 +32,11 @@ export class ReelsScene extends BaseScene {
         this.addChild(this.uiPannel);
 
         this.reelsContainer.y = -this.reelsContainer.visibleHeight / 2 - this.uiPannel.height / 2;
+
+        const totemLineView = new TotemLineView();
+        this.totemLineController = new TotemLineController(totemLineView);
+
+        this.addChild(totemLineView);
     }
 
     private getSceneBackGraphics(): PIXI.Graphics {

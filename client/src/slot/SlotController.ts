@@ -15,6 +15,7 @@ import {ISpinResponse} from "./modules/server/interfaces/ISpinResponse";
 import {RewardsModel} from "./modules/rewards/RewardsModel";
 import {RewardsManager} from "./modules/rewards/RewardsManager";
 import {LoadingManagerEvent} from "./modules/loader/events/LoaderEvent";
+import {TotemLineController} from "./modules/totemFeature/TotemLineController";
 
 export class SlotController {
 

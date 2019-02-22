@@ -7,6 +7,7 @@ import {
 import {get} from "../../utils/locator/locator";
 import {SlotModel} from "../../../SlotModel";
 import {SlotConfig} from "../../../SlotConfig";
+import {EventDispatcher} from "../../utils/dispatcher/EventDispatcher";
 
 export class ReelView extends Container {
 
@@ -30,6 +31,7 @@ export class ReelView extends Container {
 
     private slotModel: SlotModel = get(SlotModel);
     private slotConfig: SlotConfig = get(SlotConfig);
+    private dispatcher: EventDispatcher = get(EventDispatcher);
 
     private reelModel: ReelModel;
 
