@@ -1,2 +1,4 @@
-- totem line view - duplicate symbols on separate view to move them
-- move line view ( move symbol from original position to right)
+- add to emulator totem symbols
+- emulate spin result with totem combination
+- additional symbols on totem line
+- move totem line
