@@ -62,7 +62,16 @@ export class ReelsController extends Container {
         this.dispatcher.addListener(SlotEvent.SERVER_SPIN_RESPONSE_RECEIVED, this.onServerResponse, this);
         this.dispatcher.addListener(SlotEvent.STOP_CLICK, this.onStopClicked, this);
         this.dispatcher.addListener(SlotEvent.SPIN_CLICK, this.onSpinClicked, this);
+        this.dispatcher.addListener(SlotEvent.HIDE_REELS, this.onHideReels, this);
+        this.dispatcher.addListener(SlotEvent.SHOW_REELS, this.onShowReels, this);
 
+    }
+
+    private onHideReels():void{
+        this.visible = false;
+    }
+    private onShowReels():void{
+        this.visible = true;
     }
 
     private onSpinClicked(): void {

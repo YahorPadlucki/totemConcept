@@ -2,3 +2,4 @@
 - emulate spin result with totem combination
 - additional symbols on totem line
 - move totem line
+- hide regular view

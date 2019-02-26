@@ -16,11 +16,21 @@ export class TotemLineContainer extends Container {
     constructor() {
         super();
         this.dispatcher.addListener(SlotEvent.REELS_STOPPED, this.onReelsStopped, this);
+        this.dispatcher.addListener(SlotEvent.REELS_SPIN_STARTED, this.onReelsStarted, this);
     }
 
-    public onReelsStopped(): void {
+    private onReelsStarted():void{
+        this.dispatcher.dispatch(SlotEvent.SHOW_REELS);
 
+        while (this.children.length){
+            this.removeChildAt(0);
+        }
 
+    }
+
+    private onReelsStopped(): void {
+
+        this.dispatcher.dispatch(SlotEvent.HIDE_REELS);
         for (let i = 0; i < this.slotConfig.reels.rowsCount; i++) {
             const totemLineView = new TotemLineView();
 
