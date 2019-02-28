@@ -34,11 +34,25 @@ export class TotemLineContainer extends Container {
 
         this.dispatcher.dispatch(SlotEvent.HIDE_REELS);
         this.buildLInes();
-        this.findTotems();
+        this.moveLines(this.getLineIndexToMove());
 
     }
 
+    public moveLines(lineIndexesToMove: number[]): void {
+        TweenLite.to(
+            this.totemLines[0],
+            0.5,
+            {
+                ease: Sine.easeOut,
+                x: 100,
+                onComplete: () => {
+
+                }
+            });
+    }
+
     private buildLInes(): void {
+        this.totemLines = [];
         for (let i = 0; i < this.slotConfig.reels.rowsCount; i++) {
             const totemLineView: TotemLineView = new TotemLineView();
 
@@ -53,23 +67,31 @@ export class TotemLineContainer extends Container {
             }
             totemLineView.y = totemLineView.height * i + this.slotConfig.reels.gapBetweenRows * i;
             this.addChild(totemLineView);
+            this.totemLines.push(totemLineView);
         }
     }
 
-    private findTotems(): void {
-        let reelWithTotemPart: number;
-        for (let i = 0; i < this.slotConfig.reels.rowsCount - 1; i++) {
-            const totemIndexOnCurrentReel:number = this.getTotemLineIndexOnReel(i);
-            if ( totemIndexOnCurrentReel!== -1) {
-                const totemIndexOnNexReel:number = this.getTotemLineIndexOnReel(i + 1);
+    private getLineIndexToMove(): number[] {
+        let lineIndexToMove: number[] = [];
+        for (let i = 0; i < this.slotConfig.reels.reelsCount - 1; i++) {
+            const totemIndexOnCurrentReel: number = this.getTotemLineIndexOnReel(i);
+            if (totemIndexOnCurrentReel !== -1) {
+                const totemIndexOnNexReel: number = this.getTotemLineIndexOnReel(i + 1);
+                if (totemIndexOnNexReel !== -1 && Math.abs(totemIndexOnCurrentReel - totemIndexOnNexReel) === 1) {
+                    lineIndexToMove.push(totemIndexOnCurrentReel);
+                    console.log("==== move reel" + i)
+                    // i++;
+                }
             }
         }
+        return lineIndexToMove;
     }
 
     private getTotemLineIndexOnReel(reelIndex: number): number {
         const stopPosition: number = this.slotModel.getStopReelsPosition()[reelIndex];
-        const reelSymbols: number[] = this.slotModel.tapes[stopPosition];
-        const totemSymbolLineIndex: number = reelSymbols.indexOf(this.totemSymbolID);
+        const reelSymbols: number[] = this.slotModel.tapes[reelIndex];
+        const stoppedSymbols: number[] = reelSymbols.slice(stopPosition, this.slotConfig.reels.rowsCount + 1);
+        const totemSymbolLineIndex: number = stoppedSymbols.indexOf(this.totemSymbolID);
 
         return totemSymbolLineIndex;
 
