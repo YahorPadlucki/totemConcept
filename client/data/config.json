@@ -7,6 +7,7 @@
     "maxSpinSpeed": 10,
     "gapBetweenReels": 15,
     "gapBetweenRows":5,
-    "visibleHeight": 415
+    "visibleHeight": 415,
+    "symbolWidth":100
   }
 }

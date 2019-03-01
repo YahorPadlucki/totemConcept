@@ -11,4 +11,5 @@ export interface IReelsConfig {
     gapBetweenReels: number;
     gapBetweenRows: number;
     visibleHeight: number;
+    symbolWidth: number;
 }
