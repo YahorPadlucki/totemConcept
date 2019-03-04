@@ -33,7 +33,7 @@ export class TotemLineContainer extends Container {
     private onReelsStopped(): void {
 
         this.dispatcher.dispatch(SlotEvent.HIDE_REELS);
-        this.buildLInes();
+        this.prepareLines();
         this.getLineIndexToMove()
         // this.moveLines();
 
@@ -52,7 +52,7 @@ export class TotemLineContainer extends Container {
             });
     }
 
-    private buildLInes(): void {
+    private prepareLines(): void {
         this.totemLines = [];
         for (let i = 0; i < this.slotConfig.reels.rowsCount; i++) {
             const totemLineView: TotemLineView = new TotemLineView();
@@ -74,43 +74,34 @@ export class TotemLineContainer extends Container {
 
     private getLineIndexToMove(): number[][] {
         let lineIndexToMove: number[][] = [];
+        let longestSequence; //
         for (let i = 0; i < this.slotConfig.reels.reelsCount - 1; i++) {
             let totemIndexes: number[] = [];
             const totemIndexOnCurrentReels = this.getTotemLineIndexOnReel(i);
             if (totemIndexOnCurrentReels !== -1) {
                 totemIndexes.push(totemIndexOnCurrentReels);
+                totemIndexes = this.getTotemIndexesSequence(i, totemIndexes.concat());
+                console.log("===== reel " + i + " ", totemIndexes)
             }
-
-            totemIndexes =  this.getTotemIndexesSequence(i,totemIndexes);
-
-
-            // lineIndexToMove.push(totemIndexOnCurrentReel);
-            // console.log("==== move reel" + i)
-            // i++;
-
         }
         return lineIndexToMove;
     }
 
     private getTotemIndexesSequence(reelIndex: number, totemIndexes: number[]): number[] {
-        let foudSequence: boolean = false;
+        const nextReelIndex: number = reelIndex + 1;
+
         totemIndexes.forEach((lineIndex) => {
-            if(reelIndex + 1<4){
-                const totemIndexOnNexReel: number = this.getTotemLineIndexOnReel(reelIndex + 1);
+            if (nextReelIndex < this.slotConfig.reels.reelsCount-1) {
+                const totemIndexOnNexReel: number = this.getTotemLineIndexOnReel(nextReelIndex);
                 if (totemIndexOnNexReel !== -1 && Math.abs(lineIndex - totemIndexOnNexReel) === 1) {
                     totemIndexes.push(totemIndexOnNexReel);
-                    foudSequence = true;
+                    this.getTotemIndexesSequence(nextReelIndex, totemIndexes);
                 }
             }
 
         });
 
-        if (foudSequence) {
-            this.getTotemIndexesSequence(reelIndex + 1, totemIndexes);
-        } else {
-            return totemIndexes;
-        }
-
+        return totemIndexes;
 
     }
 
