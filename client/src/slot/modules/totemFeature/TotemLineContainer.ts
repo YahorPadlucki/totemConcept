@@ -34,25 +34,53 @@ export class TotemLineContainer extends Container {
 
         this.dispatcher.dispatch(SlotEvent.HIDE_REELS);
         this.prepareLines();
-        this.getLineIndexToMove()
-        // this.moveLines();
+
+        this.moveLines(this.getLineIndexToMove());
 
     }
 
-    public moveLines(lineIndexesToMove: number[][]): void {
-        TweenLite.to(
-            this.totemLines[0],
-            0.5,
-            {
-                ease: Sine.easeOut,
-                x: this.slotConfig.reels.symbolWidth + this.slotConfig.reels.gapBetweenReels,
-                onComplete: () => {
+    public moveLines(lineIndexesToMove: number[]): void {
 
-                }
-            });
+        const startReelIndex: number = lineIndexesToMove.splice(0, 1)[0];
+
+
+        lineIndexesToMove.forEach((lineIndex, index) => {
+            const tilesToMove: number = startReelIndex + ((lineIndexesToMove.length - 1) - index);
+            const tileWidth: number = this.slotConfig.reels.symbolWidth + this.slotConfig.reels.gapBetweenReels;
+            TweenLite.to(
+                this.totemLines[lineIndex],
+                0.5,
+                {
+                    ease: Sine.easeOut,
+                    x: tilesToMove * tileWidth,
+                    onComplete: () => {
+
+                    }
+                });
+        });
+
     }
 
     private prepareLines(): void {
+
+        const graphics =new PIXI.Graphics();
+
+        const reelsCount:number = this.slotConfig.reels.reelsCount;
+        const gap:number = this.slotConfig.reels.gapBetweenReels;
+        const maskWidth = reelsCount*this.slotConfig.reels.symbolWidth+(reelsCount-1)*gap;
+
+        graphics.beginFill(0xFF3300);
+
+        graphics.moveTo(0,0);
+        graphics.lineTo(maskWidth, 0);
+        graphics.lineTo(maskWidth, 500);
+        graphics.lineTo(0, 500);
+        graphics.lineTo(0, 0);
+        graphics.endFill();
+        this.addChild(graphics);
+
+
+        this.mask = graphics;
         this.totemLines = [];
         for (let i = 0; i < this.slotConfig.reels.rowsCount; i++) {
             const totemLineView: TotemLineView = new TotemLineView();
@@ -72,31 +100,36 @@ export class TotemLineContainer extends Container {
         }
     }
 
-    private getLineIndexToMove(): number[][] {
-        let lineIndexToMove: number[][] = [];
-        let longestSequence; //
+    private getLineIndexToMove(): number[] {
+        let longestSequence: number[] = [];
+        let startReel: number;
         for (let i = 0; i < this.slotConfig.reels.reelsCount - 1; i++) {
             let totemIndexes: number[] = [];
             const totemIndexOnCurrentReels = this.getTotemLineIndexOnReel(i);
             if (totemIndexOnCurrentReels !== -1) {
                 totemIndexes.push(totemIndexOnCurrentReels);
                 totemIndexes = this.getTotemIndexesSequence(i, totemIndexes.concat());
-                console.log("===== reel " + i + " ", totemIndexes)
+                if (totemIndexes.length >= longestSequence.length) {
+                    longestSequence = totemIndexes.concat();
+                    startReel = i;
+
+                }
             }
         }
-        return lineIndexToMove;
+        longestSequence.unshift(startReel);
+        return longestSequence;
     }
 
     private getTotemIndexesSequence(reelIndex: number, totemIndexes: number[]): number[] {
         const nextReelIndex: number = reelIndex + 1;
 
         totemIndexes.forEach((lineIndex) => {
-            if (nextReelIndex < this.slotConfig.reels.reelsCount-1) {
+            if (nextReelIndex < this.slotConfig.reels.reelsCount - 1) {
                 const totemIndexOnNexReel: number = this.getTotemLineIndexOnReel(nextReelIndex);
                 if (totemIndexOnNexReel !== -1 && Math.abs(lineIndex - totemIndexOnNexReel) === 1) {
                     totemIndexes.push(totemIndexOnNexReel);
-                    this.getTotemIndexesSequence(nextReelIndex, totemIndexes);
                 }
+                this.getTotemIndexesSequence(nextReelIndex, totemIndexes);
             }
 
         });
