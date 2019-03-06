@@ -1,8 +1,9 @@
-- make 3 rows slot
-- additional symbols on totem line
-- move totem line - [1,0,2], [2,0,1] - sequence
-- hide regular view
++ additional symbols on totem line
+-save fake symbols
 - change symbols on reels
+
+- make 3 rows slot
+- hide regular view
 
 
 - case when two totem symbols on one reel ( x, 0 x )

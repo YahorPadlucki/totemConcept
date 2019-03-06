@@ -4,6 +4,7 @@ export class ReelModel {
     private _currentState: ReelState;
 
     public symbolsTape: number[];
+    public fakeSymbolsTape: number[]=[3,1,2,3];
 
     set reelIndex(value: number) {
         this._reelIndex = value;

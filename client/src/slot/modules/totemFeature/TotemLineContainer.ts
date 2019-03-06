@@ -14,6 +14,8 @@ export class TotemLineContainer extends Container {
     private totemLines: TotemLineView[] = [];
     private readonly totemSymbolID: number = 4;
 
+    private finalSymbolsView: number[][] = [];
+
 
     constructor() {
         super();
@@ -47,49 +49,69 @@ export class TotemLineContainer extends Container {
         lineIndexesToMove.forEach((lineIndex, index) => {
             const tilesToMove: number = startReelIndex + ((lineIndexesToMove.length - 1) - index);
             const tileWidth: number = this.slotConfig.reels.symbolWidth + this.slotConfig.reels.gapBetweenReels;
-            TweenLite.to(
-                this.totemLines[lineIndex],
-                0.5,
-                {
-                    ease: Sine.easeOut,
-                    x: tilesToMove * tileWidth,
-                    onComplete: () => {
 
-                    }
-                });
+            for (let i = 0; i < tilesToMove; i++) {
+                this.finalSymbolsView[lineIndex].splice(startReelIndex+i,0, null)
+                this.finalSymbolsView[lineIndex].pop();
+
+            }
+            /*  TweenLite.to(
+                  this.totemLines[lineIndex],
+                  0.5,
+                  {
+                      ease: Sine.easeOut,
+                      x: tilesToMove * tileWidth,
+                      onComplete: () => {
+
+                      }
+                  });*/
         });
+        console.log(this.finalSymbolsView);
+
 
     }
 
     private prepareLines(): void {
 
-        const graphics =new PIXI.Graphics();
+        const graphics = new PIXI.Graphics();
 
-        const reelsCount:number = this.slotConfig.reels.reelsCount;
-        const gap:number = this.slotConfig.reels.gapBetweenReels;
-        const maskWidth = reelsCount*this.slotConfig.reels.symbolWidth+(reelsCount-1)*gap;
+        const reelsCount: number = this.slotConfig.reels.reelsCount;
+        const gap: number = this.slotConfig.reels.gapBetweenReels;
+        const maskWidth = reelsCount * this.slotConfig.reels.symbolWidth + (reelsCount - 1) * gap;
 
         graphics.beginFill(0xFF3300);
 
-        graphics.moveTo(0,0);
+        graphics.moveTo(0, -50);
         graphics.lineTo(maskWidth, 0);
         graphics.lineTo(maskWidth, 500);
         graphics.lineTo(0, 500);
         graphics.lineTo(0, 0);
         graphics.endFill();
         this.addChild(graphics);
+        // this.mask = graphics;
 
-
-        this.mask = graphics;
         this.totemLines = [];
         for (let i = 0; i < this.slotConfig.reels.rowsCount; i++) {
             const totemLineView: TotemLineView = new TotemLineView();
+            this.finalSymbolsView[i] = [];
+            for (let j = -3; j < this.slotConfig.reels.reelsCount; j++) {
+                const additionalSymbols: number[] = [1, 2, 3];
+                const randomSymbolIndex = Math.floor(Math.random() * additionalSymbols.length);
 
-            for (let j = 0; j < this.slotConfig.reels.reelsCount; j++) {
                 const stopPosition: number = this.slotModel.getStopReelsPosition()[j];
 
-                const symbolId: number = this.slotModel.tapes[j][stopPosition + i];
+
+                let symbolId: number;
+                if (j < 0) {
+                    symbolId = additionalSymbols[randomSymbolIndex];
+                }
+                else {
+                    symbolId = this.slotModel.tapes[j][stopPosition + i];
+
+                }
                 const symbolView: SymbolView = new SymbolView(symbolId);
+
+                this.finalSymbolsView[i].push(symbolId);
                 symbolView.x = symbolView.width * j + this.slotConfig.reels.gapBetweenReels * j;
 
                 totemLineView.addChild(symbolView);
@@ -98,6 +120,8 @@ export class TotemLineContainer extends Container {
             this.addChild(totemLineView);
             this.totemLines.push(totemLineView);
         }
+
+        console.log(this.finalSymbolsView);
     }
 
     private getLineIndexToMove(): number[] {
