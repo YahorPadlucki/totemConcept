@@ -64,13 +64,23 @@ export class ReelsController extends Container {
         this.dispatcher.addListener(SlotEvent.SPIN_CLICK, this.onSpinClicked, this);
         this.dispatcher.addListener(SlotEvent.HIDE_REELS, this.onHideReels, this);
         this.dispatcher.addListener(SlotEvent.SHOW_REELS, this.onShowReels, this);
+        this.dispatcher.addListener(SlotEvent.UPDATE_REEL_SYMBOLS, this.updateReelSymbols, this);
 
     }
 
-    private onHideReels():void{
+    private updateReelSymbols(newReelSymbols: number[][]): void {
+        //TODO: transpose
+        this.reels.forEach((reel, index) => {
+            reel.changeSymbols(newReelSymbols[index]);
+        });
+
+    }
+
+    private onHideReels(): void {
         this.visible = false;
     }
-    private onShowReels():void{
+
+    private onShowReels(): void {
         this.visible = true;
     }
 

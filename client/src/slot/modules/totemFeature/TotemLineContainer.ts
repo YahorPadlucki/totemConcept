@@ -51,22 +51,26 @@ export class TotemLineContainer extends Container {
             const tileWidth: number = this.slotConfig.reels.symbolWidth + this.slotConfig.reels.gapBetweenReels;
 
             for (let i = 0; i < tilesToMove; i++) {
-                this.finalSymbolsView[lineIndex].splice(startReelIndex+i,0, null)
+                this.finalSymbolsView[lineIndex].splice(startReelIndex + i, 0, null);
                 this.finalSymbolsView[lineIndex].pop();
-
             }
-            /*  TweenLite.to(
-                  this.totemLines[lineIndex],
-                  0.5,
-                  {
-                      ease: Sine.easeOut,
-                      x: tilesToMove * tileWidth,
-                      onComplete: () => {
+            TweenLite.to(
+                this.totemLines[lineIndex],
+                0.5,
+                {
+                    ease: Sine.easeOut,
+                    x: tilesToMove * tileWidth,
+                    onComplete: () => {
 
-                      }
-                  });*/
+                    }
+                });
         });
-        console.log(this.finalSymbolsView);
+
+        this.finalSymbolsView.forEach((line, index) =>
+            this.finalSymbolsView[index] = this.finalSymbolsView[index].splice(-this.slotConfig.reels.reelsCount)
+        );
+        this.dispatcher.dispatch(SlotEvent.UPDATE_REEL_SYMBOLS, this.finalSymbolsView);
+        // console.log(this.finalSymbolsView);
 
 
     }

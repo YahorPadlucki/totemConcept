@@ -41,7 +41,9 @@ export class ReelController {
     }
 
     public stopOnServerResponse(): void {
-        if (!this.isReelSpinning) { return; }
+        if (!this.isReelSpinning) {
+            return;
+        }
 
         clearTimeout(this.autoStopTimer);
         const stopTime = this.autoStopTime + (this.model.reelIndex * 500);
@@ -49,7 +51,9 @@ export class ReelController {
     }
 
     public onStopClicked(auto: boolean = false): void {
-        if (!this.isReelSpinning) { return; }
+        if (!this.isReelSpinning) {
+            return;
+        }
         clearTimeout(this.autoStopTimer);
 
         this.stopReel(auto);

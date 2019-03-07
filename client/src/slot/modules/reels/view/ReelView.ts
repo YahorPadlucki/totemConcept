@@ -50,7 +50,6 @@ export class ReelView extends Container {
         this.prepareTape();
         this.tapeHeight = this.symbolsInTape[0].y + (this.verticalGap * this.symbolsInTape.length - 1) + (this.symbolsInTape[0].height * this.symbolsInTape.length);
         this.inited = true;
-        this.changeSymbols();
     }
 
     private prepareTape() {
@@ -68,16 +67,15 @@ export class ReelView extends Container {
         }
     }
 
-    public changeSymbols():void{
+    public changeSymbols(symbols: number[]): void {
         for (let i = this.rows - 1; i >= 0; i--) {
 
-            const symbolIndex = this.reelModel.fakeSymbolsTape[i];
+            const symbolIndex = symbols[i];
 
             this.symbolsInTape[i].setSymbolImage(symbolIndex);
 
         }
     }
-
 
 
     draw(deltaTime: number) {
