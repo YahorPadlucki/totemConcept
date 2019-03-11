@@ -4,7 +4,6 @@ import {BaseScene} from "./BaseScene";
 import {LoaderCache} from "../loader/cache/LoaderCache";
 import {get} from "../utils/locator/locator";
 import {TotemLineContainer} from "../totemFeature/TotemLineContainer";
-import {TotemLineView} from "../totemFeature/TotemLineView";
 
 export class ReelsScene extends BaseScene {
 
@@ -35,8 +34,8 @@ export class ReelsScene extends BaseScene {
 
 
         this.totemLineContainer = new TotemLineContainer();
-        this.totemLineContainer.x = this.reelsContainer.x + 10;
-        this.totemLineContainer.y = this.reelsContainer.y + 10;
+        this.totemLineContainer.x = this.reelsContainer.x;
+        this.totemLineContainer.y = this.reelsContainer.y;
 
         this.addChild(this.totemLineContainer);
     }

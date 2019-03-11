@@ -31,9 +31,9 @@ export class ReelView extends Container {
 
     private slotModel: SlotModel = get(SlotModel);
     private slotConfig: SlotConfig = get(SlotConfig);
-    private dispatcher: EventDispatcher = get(EventDispatcher);
-
     private reelModel: ReelModel;
+
+    private readonly ADDITIONAL_SYMBOL_COUNT: number = 1;
 
     constructor(reelModel: ReelModel) {
         super();
@@ -68,11 +68,11 @@ export class ReelView extends Container {
     }
 
     public changeSymbols(symbols: number[]): void {
-        for (let i = this.rows - 1; i >= 0; i--) {
+        for (let i = 0; i < this.rows; i++) {
 
             const symbolIndex = symbols[i];
 
-            this.symbolsInTape[i].setSymbolImage(symbolIndex);
+            this.symbolsInTape[i + this.ADDITIONAL_SYMBOL_COUNT].setSymbolImage(symbolIndex);
 
         }
     }

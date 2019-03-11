@@ -92,7 +92,7 @@ export class TotemLineContainer extends Container {
         graphics.lineTo(0, 0);
         graphics.endFill();
         this.addChild(graphics);
-        // this.mask = graphics;
+        this.mask = graphics;
 
         this.totemLines = [];
         for (let i = 0; i < this.slotConfig.reels.rowsCount; i++) {

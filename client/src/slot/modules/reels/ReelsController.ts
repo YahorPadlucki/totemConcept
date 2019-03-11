@@ -69,9 +69,12 @@ export class ReelsController extends Container {
     }
 
     private updateReelSymbols(newReelSymbols: number[][]): void {
-        //TODO: transpose
-        this.reels.forEach((reel, index) => {
-            reel.changeSymbols(newReelSymbols[index]);
+        this.reels.forEach((reel, reelIndex) => {
+            let reelSymbols: number[] = [];
+            newReelSymbols.forEach((line) => {
+                reelSymbols.push(line[reelIndex]);
+            });
+            reel.changeSymbols(reelSymbols);
         });
 
     }
