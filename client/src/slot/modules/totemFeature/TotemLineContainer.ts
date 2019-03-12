@@ -56,10 +56,11 @@ export class TotemLineContainer extends Container {
             }
             TweenLite.to(
                 this.totemLines[lineIndex],
-                0.5,
+                0.8,
                 {
-                    ease: Sine.easeOut,
+                    ease: Linear.easeInOut,
                     x: tilesToMove * tileWidth,
+                    delay: index * 0.3,
                     onComplete: () => {
 
                     }
