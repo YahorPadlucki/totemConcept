@@ -56,11 +56,11 @@ export class TotemLineContainer extends Container {
             }
             TweenLite.to(
                 this.totemLines[lineIndex],
-                0.8,
+                1.5,
                 {
-                    ease: Linear.easeInOut,
+                    ease: Elastic.easeInOut,
                     x: tilesToMove * tileWidth,
-                    delay: index * 0.3,
+                    delay: (tilesToMove - 1) * 0.7,
                     onComplete: () => {
 
                     }
@@ -71,7 +71,6 @@ export class TotemLineContainer extends Container {
             this.finalSymbolsView[index] = this.finalSymbolsView[index].splice(-this.slotConfig.reels.reelsCount)
         );
         this.dispatcher.dispatch(SlotEvent.UPDATE_REEL_SYMBOLS, this.finalSymbolsView);
-        // console.log(this.finalSymbolsView);
 
 
     }

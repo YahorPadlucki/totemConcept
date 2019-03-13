@@ -3,7 +3,7 @@
     - tween lines one by one
     - show effect when can't merge totem
 
-- emulate several different spins
+- emulate several different spins - not random
 
 - make 3 rows slot
 - totem image

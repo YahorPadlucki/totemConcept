@@ -36,24 +36,7 @@
           "symbolsCount": 3
         }
       ]
-    },
-    {
-      "totalWin": 10,
-      "reels": {
-        "stopPositions": [1, 1, 2, 1, 0]
-      },
-      "rewards": [
-        {
-          "lineId": 0,
-          "linePayout": 0,
-          "symbolsCount": 3
-        },
-        {
-          "lineId": 1,
-          "linePayout": 0,
-          "symbolsCount": 3
-        }
-      ]
     }
+
   ]
 }
