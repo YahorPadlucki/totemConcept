@@ -37,7 +37,11 @@ export class TotemLineContainer extends Container {
         this.dispatcher.dispatch(SlotEvent.HIDE_REELS);
         this.prepareLines();
 
-        this.moveLines(this.getLineIndexToMove());
+        // first element is start reel index
+        // then line indexes ordered from left to right ( last one it the most right - to which we will move)
+        const linesToMove: number[] = this.getLineIndexToMove();
+
+        this.moveLines(linesToMove);
 
     }
 
@@ -46,26 +50,36 @@ export class TotemLineContainer extends Container {
         const startReelIndex: number = lineIndexesToMove.splice(0, 1)[0];
 
 
-        lineIndexesToMove.forEach((lineIndex, index) => {
-            const tilesToMove: number = startReelIndex + ((lineIndexesToMove.length - 1) - index);
+        // [1,0,2]
+
+
+        for (let i = 0; i < lineIndexesToMove.length; i++) {
+
+            const lineIndex: number = lineIndexesToMove[i];
+            const tilesToMove: number = startReelIndex + ((lineIndexesToMove.length - 1) - i);
             const tileWidth: number = this.slotConfig.reels.symbolWidth + this.slotConfig.reels.gapBetweenReels;
+
+            for (let j = 0; j < tilesToMove; j++) {
+                TweenLite.to(
+                    this.totemLines[lineIndex],
+                    1.5,
+                    {
+                        ease: Elastic.easeInOut,
+                        x: (j+1) * tileWidth,
+                        delay: (i + j) * 1.5,
+                        onComplete: () => {
+
+                        }
+                    });
+            }
+
 
             for (let i = 0; i < tilesToMove; i++) {
                 this.finalSymbolsView[lineIndex].splice(startReelIndex + i, 0, null);
                 this.finalSymbolsView[lineIndex].pop();
             }
-            TweenLite.to(
-                this.totemLines[lineIndex],
-                1.5,
-                {
-                    ease: Elastic.easeInOut,
-                    x: tilesToMove * tileWidth,
-                    delay: (tilesToMove - 1) * 0.7,
-                    onComplete: () => {
+        }
 
-                    }
-                });
-        });
 
         this.finalSymbolsView.forEach((line, index) =>
             this.finalSymbolsView[index] = this.finalSymbolsView[index].splice(-this.slotConfig.reels.reelsCount)
