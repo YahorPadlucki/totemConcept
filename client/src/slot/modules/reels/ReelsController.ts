@@ -26,7 +26,7 @@ export class ReelsController extends Container {
     private slotConfig: SlotConfig = get(SlotConfig);
 
     private reelsStopped: boolean = true;
-    public visibleHeight: number = 415;
+    public visibleHeight: number = 315;
     private dispatcher: EventDispatcher = get(EventDispatcher);
 
     constructor() {

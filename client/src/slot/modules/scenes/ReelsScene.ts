@@ -43,7 +43,7 @@ export class ReelsScene extends BaseScene {
     private getSceneBackGraphics(): PIXI.Graphics {
 
         const graphics = new PIXI.Graphics();
-        graphics.beginFill(0xcccccc);
+        graphics.beginFill(0xd8d8d8);
         graphics.drawRect(-this.minWidth / 2, -this.minHeight / 2, this.minWidth, this.minHeight);
         graphics.endFill();
 

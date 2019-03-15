@@ -37,6 +37,78 @@
           "symbolsCount": 3
         }
       ]
+    },
+    {
+      "totalWin": 10,
+      "reels": {
+        "stopPositions": [5, 10, 3, 1, 0]
+      },
+      "rewards": [
+        {
+          "lineId": 0,
+          "linePayout": 0,
+          "symbolsCount": 3
+        },
+        {
+          "lineId": 1,
+          "linePayout": 0,
+          "symbolsCount": 3
+        }
+      ]
+    },
+    {
+      "totalWin": 10,
+      "reels": {
+        "stopPositions": [2, 2, 0, 1, 0]
+      },
+      "rewards": [
+        {
+          "lineId": 0,
+          "linePayout": 0,
+          "symbolsCount": 3
+        },
+        {
+          "lineId": 1,
+          "linePayout": 0,
+          "symbolsCount": 3
+        }
+      ]
+    },
+    {
+      "totalWin": 10,
+      "reels": {
+        "stopPositions": [10, 7, 3, 5, 0]
+      },
+      "rewards": [
+        {
+          "lineId": 0,
+          "linePayout": 0,
+          "symbolsCount": 3
+        },
+        {
+          "lineId": 1,
+          "linePayout": 0,
+          "symbolsCount": 3
+        }
+      ]
+    },
+    {
+      "totalWin": 10,
+      "reels": {
+        "stopPositions": [1, 1, 2, 1, 0]
+      },
+      "rewards": [
+        {
+          "lineId": 0,
+          "linePayout": 0,
+          "symbolsCount": 3
+        },
+        {
+          "lineId": 1,
+          "linePayout": 0,
+          "symbolsCount": 3
+        }
+      ]
     }
 
   ]

@@ -10,6 +10,8 @@ export class ServerEmulator implements IServer {
     private spinResponses: ISpinResponse[];
     private initResponse: IInitResponse;
 
+    private spinsCount: number = 0;
+
     constructor() {
         console.log("Constructing ");
     }
@@ -32,8 +34,11 @@ export class ServerEmulator implements IServer {
         return new Promise(resolve => {
             clearTimeout(this.spinRequestTimeout);
             this.spinRequestTimeout = setTimeout(() =>
-                resolve(this.spinResponses[Math.floor(Math.random() * this.spinResponses.length)]), 500);
+                resolve(this.spinResponses[this.spinsCount % this.spinResponses.length]), 500);
+            this.spinsCount++;
+
         });
+
     }
 
 }

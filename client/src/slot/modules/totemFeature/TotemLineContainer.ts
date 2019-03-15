@@ -184,7 +184,7 @@ export class TotemLineContainer extends Container {
     private getTotemLineIndexOnReel(reelIndex: number): number {
         const stopPosition: number = this.slotModel.getStopReelsPosition()[reelIndex];
         const reelSymbols: number[] = this.slotModel.tapes[reelIndex];
-        const stoppedSymbols: number[] = reelSymbols.slice(stopPosition, this.slotConfig.reels.rowsCount + 1);
+        const stoppedSymbols: number[] = reelSymbols.slice(stopPosition, stopPosition+this.slotConfig.reels.rowsCount + 1);
         const totemSymbolLineIndex: number = stoppedSymbols.indexOf(this.totemSymbolID);
 
         return totemSymbolLineIndex;

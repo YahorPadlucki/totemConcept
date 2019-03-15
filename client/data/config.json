@@ -3,7 +3,7 @@
   "minSlotHeight": 600,
   "reels": {
     "reelsCount": 5,
-    "rowsCount": 4,
+    "rowsCount": 3,
     "maxSpinSpeed": 10,
     "gapBetweenReels": 15,
     "gapBetweenRows":5,
