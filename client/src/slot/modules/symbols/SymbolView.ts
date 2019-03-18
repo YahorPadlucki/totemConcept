@@ -4,6 +4,8 @@ import {get} from "../utils/locator/locator";
 import {EventDispatcher} from "../utils/dispatcher/EventDispatcher";
 import {SymbolEvents} from "./events/SymbolEvents";
 import {IWinSymbolData} from "../rewards/interfaces/IWinSymbolData";
+import {LoaderCache} from "../loader/cache/LoaderCache";
+import {SlotConstants} from "../SlotConstants";
 
 export class SymbolView extends Container {
 
@@ -15,7 +17,8 @@ export class SymbolView extends Container {
     private _stopRowIndex: number;
     private _stopCollumnIndex: number;
 
-    private dispatcher:EventDispatcher = get(EventDispatcher);
+    private dispatcher: EventDispatcher = get(EventDispatcher);
+    private loaderCache: LoaderCache = get(LoaderCache);
 
     constructor(colorIndex: number) {
         super();
@@ -26,15 +29,28 @@ export class SymbolView extends Container {
 
     public setSymbolImage(colorIndex: number) {
         this.removeChildren();
-        const graphics = new PIXI.Graphics();
-        graphics.beginFill(this.symbolModel.colorMap[colorIndex]);
 
-        graphics.drawRect(0, 0, this.symbolWidth, this.symbolHeight);
-        graphics.endFill();
-        this.addChild(graphics);
 
-        const text = new PIXI.Text(colorIndex.toString());
-        this.addChild(text);
+        if (SlotConstants.totemSymbols.indexOf(colorIndex) !== -1) {
+            const totemTexture = this.loaderCache.getTexture("totem" + colorIndex.toString().slice(-1));
+            const graphics = new PIXI.Sprite(totemTexture);
+            graphics.width = this.symbolWidth;
+            graphics.height = this.symbolHeight;
+            this.addChild(graphics);
+
+        } else {
+            let graphics = new PIXI.Graphics();
+
+            graphics.beginFill(this.symbolModel.colorMap[colorIndex]);
+
+            graphics.drawRect(0, 0, this.symbolWidth, this.symbolHeight);
+            graphics.endFill();
+            this.addChild(graphics);
+            const text = new PIXI.Text(colorIndex.toString());
+            this.addChild(text);
+        }
+
+
     }
 
     private blink(winSymbolData: IWinSymbolData) {

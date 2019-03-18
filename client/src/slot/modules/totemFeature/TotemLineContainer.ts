@@ -5,6 +5,7 @@ import {SlotModel} from "../../SlotModel";
 import {SlotConfig} from "../../SlotConfig";
 import {TotemLineView} from "./TotemLineView";
 import {SymbolView} from "../symbols/SymbolView";
+import {SlotConstants} from "../SlotConstants";
 import Container = PIXI.Container;
 
 export class TotemLineContainer extends Container {
@@ -65,7 +66,7 @@ export class TotemLineContainer extends Container {
                     1.5,
                     {
                         ease: Elastic.easeInOut,
-                        x: (j+1) * tileWidth,
+                        x: (j + 1) * tileWidth,
                         delay: (i + j) * 1.5,
                         onComplete: () => {
 
@@ -184,11 +185,20 @@ export class TotemLineContainer extends Container {
     private getTotemLineIndexOnReel(reelIndex: number): number {
         const stopPosition: number = this.slotModel.getStopReelsPosition()[reelIndex];
         const reelSymbols: number[] = this.slotModel.tapes[reelIndex];
-        const stoppedSymbols: number[] = reelSymbols.slice(stopPosition, stopPosition+this.slotConfig.reels.rowsCount + 1);
-        const totemSymbolLineIndex: number = stoppedSymbols.indexOf(this.totemSymbolID);
+        const stoppedSymbols: number[] = reelSymbols.slice(stopPosition, stopPosition + this.slotConfig.reels.rowsCount + 1);
+        return this.getTotemIndexInStoppedSymbols(stoppedSymbols);
 
-        return totemSymbolLineIndex;
+    }
 
+    private getTotemIndexInStoppedSymbols(stoppedSymbols: number[]): number {
+
+        for (const totemSymbolId of  SlotConstants.totemSymbols) {
+            const totemIndex: number = stoppedSymbols.indexOf(totemSymbolId);
+            if (totemIndex !== -1)
+                return totemIndex;
+        }
+
+        return -1;
     }
 
 
